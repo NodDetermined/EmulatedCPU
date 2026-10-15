@@ -182,7 +182,6 @@ public class ArithmeticLogicUnit
       int res5 = alu.execute(ArithmeticLogicUnit.OP_ADD, 250, 100);
       System.out.println("Result: " + res5 + " | Flags: " + alu.getFlags());
       
-      
       for(int i = 0; i < 256; i++)
       {
          int res6 = alu.execute(ArithmeticLogicUnit.OP_ADD,i,0);
