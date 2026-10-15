@@ -14,7 +14,7 @@ public class Memory
    {
       for(int i = 0; i < MEMORY_SIZE; i++)
       {
-         ram[i]=0;
+         ram[i]=0x00;
       }
    }
 
@@ -27,8 +27,12 @@ public class Memory
 
    public int read16(int address)// reads a 16-bit 
    {
-   return 5;
+      int highByte = read8(address);
+      int lowByte = read8(address + 1);
+      return (highByte << 8) | lowByte;
    }
+   // the << 8 makes highbyte have a 0000 added to the end of it
+   // allowing it to be merged with the "lower-end byte". 
 
    public void write8(int address, int value)// writes an 8-bit value to a specific address
    {
@@ -54,7 +58,7 @@ public class Memory
    
    private void checkAddress(int address)
    {
-      if(address < 0 || address > ram.length)
+      if(address < 0 || address >= ram.length)
       {
          throw new IndexOutOfBoundsException("Address out of bounds: " + address);
       }
