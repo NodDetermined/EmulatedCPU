@@ -7,14 +7,21 @@ public class Memory
    public Memory()
    {
       this.ram = new byte[MEMORY_SIZE];
-      //reset();
+      reset();
+   }
+
+   public void reset()
+   {
+      for(int i = 0; i < MEMORY_SIZE; i++)
+      {
+         ram[i]=0;
+      }
    }
 
    public int read8(int address)//reads an 8-bit byte from given address
    {
-      int targetAddress = address & 0xFFFF; 
-   
-   return 5;
+      checkAddress(address);
+      return ram[address] & 0xFF;
    }
 
 
@@ -25,6 +32,9 @@ public class Memory
 
    public void write8(int address, int value)// writes an 8-bit value to a specific address
    {
+      checkAddress(address);
+      int targetAddress = address & 0xFFFF;
+      ram[targetAddress] = (byte)(value & 0xFF);
    }
 
    public void write16(int address, int value)// writes 16 bit value across 2 addresses
@@ -32,7 +42,14 @@ public class Memory
    
    }
    
-   
+   // loading in a file
+   public void load(int startAddress, byte[] data)
+   {
+      for(int i = 0; i < data.length; i++)
+      { 
+         write8(startAddress+i,data[i]);   
+      }
+   }
 
    
    private void checkAddress(int address)
