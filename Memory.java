@@ -38,11 +38,12 @@ public class Memory
    {
       checkAddress(address);
       int targetAddress = address & 0xFFFF;
-      ram[targetAddress] = (byte)(value & 0xFF);
+      ram[targetAddress] = (byte)value;
    }
 
    public void write16(int address, int value)// writes 16 bit value across 2 addresses
    {
+      checkAddress(address);
    
    }
    
@@ -54,8 +55,29 @@ public class Memory
          write8(startAddress+i,data[i]);   
       }
    }
-
    
+   // returns some slice of the memory.
+   public byte[] dump(int startAddress, int length)
+   {
+      if (startAddress < 0 || length < 0) 
+      {
+        throw new IllegalArgumentException("Address and length must be positive.");
+      }
+       
+      if(startAddress + length > MEMORY_SIZE)
+      {
+         throw new IndexOutOfBoundsException("Requested Memory Slice exceeds memory bounds");
+      }
+      byte[] slice = new byte[length];
+
+      for(int i = 0; i < slice.length; i++)
+      {
+         slice[i] = ram[startAddress+i];
+      }
+      return slice;
+   }
+
+
    private void checkAddress(int address)
    {
       if(address < 0 || address >= ram.length)
