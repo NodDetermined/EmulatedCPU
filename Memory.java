@@ -33,6 +33,7 @@ public class Memory
    }
    // the << 8 makes highbyte have a 0000 added to the end of it
    // allowing it to be merged with the "lower-end byte". 
+   // using BIG ENDIAN
 
    public void write8(int address, int value)// writes an 8-bit value to a specific address
    {
@@ -43,8 +44,12 @@ public class Memory
 
    public void write16(int address, int value)// writes 16 bit value across 2 addresses
    {
-      checkAddress(address);
-   
+      checkAddress(address);    // 1111 1111
+      checkAddress(address + 1); 
+      int highByte = (value >> 8) & 0xFF; //gets the higher-end byte
+      int lowByte = value & 0xFF; //gets the lower-end byte
+      write8(address, highByte);
+      write8(address+1, lowByte);
    }
    
    // loading in a file
