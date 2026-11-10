@@ -65,10 +65,8 @@ public class CPU
       }
       
       /**
-    * TODO:
     * Implement a LOAD instruction.
     *
-    * Example:
     * LOAD value into accumulator register.
     */
    private void executeLoad()
@@ -77,10 +75,8 @@ public class CPU
    }
 
    /**
-    * TODO:
     * Implement a STORE instruction.
     *
-    * Example:
     * Write accumulator value to memory.
     */
    private void executeStore()
@@ -89,19 +85,22 @@ public class CPU
    }
 
    /**
-    * TODO:
     * Implement ADD instruction.
     *
     * Use the ALU's add() method.
-    * Store the result back into the register.
+    * Store the result back into the A register.
     */
    private void executeAdd()
    {
-
+   int operand1 = this.A.get();
+   int operand2 = this.B.get();
+   
+   int result = this.alu.add(operand1, operand2);
+   
+   A.set(result);
    }
 
    /**
-    * TODO:
     * Implement SUB instruction.
     *
     * Use the ALU's sub() method.
@@ -109,11 +108,14 @@ public class CPU
     */
    private void executeSub()
    {
-
+   int operand1 = this.A.get();
+   int operand2 = this.B.get();
+   
+   int result = this.alu.sub(operand1,operand2);
+   A.set(result);
    }
 
    /**
-    * TODO:
     * Implement unconditional jump.
     *
     * Update programCounter to a new address.
@@ -124,20 +126,42 @@ public class CPU
    }
       
       
+   // reset CPU state
+   // set everything to zero
+   public void reset()
+   {
+      halt();
+      programCounter = 0;
+      instructionRegister = 0; 
+   }
       
       
       
+   public int getProgramCounter()
+   {
+      return programCounter;
+   }
+   public int getInstructionRegister()
+   {
+      return instructionRegister;
+   }
+   public Register getRegisterA()
+   {
+      return A;
+   }
+   public Register getRegisterB()
+   {
+      return B;
+   }
+   public ArithmeticLogicUnit getALU()
+   {
+      return alu;
+   }
+   public Memory getMemory()
+   {
+      return memory;
+   }
+   
       
-      // reset CPU state
-      // set everything to zero
-      public void reset()
-      {
       
-      }
-      
-      public int getProgramCounter()
-      {
-         return programCounter;
-      }
-      
-}
+}//end of class
