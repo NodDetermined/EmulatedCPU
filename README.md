@@ -4,13 +4,12 @@ A Java-based Virtual CPU Simulator with registers, memory, ALU, and program coun
 A personal project to learn computer architecture by implementing an 8-bit CPU emulator.
 
 Goals
+
 Implement registers
 
 Implement memory
 
-
 Build an instruction set
-
 
 Execute machine code programs
 
