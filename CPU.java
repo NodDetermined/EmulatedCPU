@@ -9,7 +9,10 @@ public class CPU
        
    private ArithmeticLogicUnit alu;
    private Memory memory;
-      
+
+    private static final int OP_LOAD = 0x03;
+    private static final int OP_STORE = 0x04;
+
       //if true, keep running. false, halt()
    private boolean running;
       
@@ -76,8 +79,14 @@ public class CPU
          case(ArithmeticLogicUnit.OP_SUB):
             executeSub();
             break;
-         
-         
+            
+         case OP_LOAD:
+         executeLoad();
+         break;
+
+         case OP_STORE:
+         executeStore();
+         break;
          
          case 0xFF:
             halt();
@@ -98,7 +107,9 @@ public class CPU
     */
    private void executeLoad()
    {
-            
+      int value = memory.read8(programCounter.get());
+      A.set(value);
+      programCounter.next();
    }
 
    /**
@@ -108,7 +119,9 @@ public class CPU
     */
    private void executeStore()
    {
-   
+      int address = memory.read8(programCounter.get());
+      memory.write8(address, A.get());
+      programCounter.next();
    }
 
    /**
@@ -149,7 +162,7 @@ public class CPU
     */
    private void executeJump()
    {
-   
+      programCounter.next();
    }
       
       
@@ -193,7 +206,10 @@ public class CPU
    {
       return memory;
    }
-   
+   public int getFlags()
+   {
+    return alu.getFlags();
+   }
       
       
 }//end of class
