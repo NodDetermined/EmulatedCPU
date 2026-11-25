@@ -11,6 +11,10 @@ public class ArithmeticLogicUnit
    // Opcode definitions
    public static final int OP_ADD = 0x01;  // 00000001
    public static final int OP_SUB = 0x02;  // 00000010
+   public static final int OP_AND = 0x05;  // 00010000
+   public static final int OP_OR  = 0x06;  
+   public static final int OP_XOR = 0x07;
+   public static final int OP_JMP = 0x08;
    
    /* 
    *  int is 32 bits, long is 64 bits.
@@ -87,10 +91,10 @@ public class ArithmeticLogicUnit
       }
       
          //evaluates as either 1000 0000  or 0000 0000.
-      if((result & 0x80) == 0x80) //checks result against  7th bit (128)
+      if((result & 0x80) != 0)
       {
          flags |= FLAG_NEGATIVE;
-      } 
+      }
      
       return result;
    }
@@ -143,12 +147,52 @@ public class ArithmeticLogicUnit
          flags |= FLAG_ZERO;
       }
       
-      if((result & 0x80) == 0x80) //checks result against  7th bit (128)
+      if((result & 0x80) != 0)
       {
          flags |= FLAG_NEGATIVE;
-      } 
+      }
       
       
+      return result;
+   }
+   
+   public int and(int operandA, int operandB)
+   {
+      flags = 0;
+   
+      operandA &= 0xFF;
+      operandB &= 0xFF;
+   
+      int result = operandA & operandB;
+   
+      if(result == 0)
+      {
+         flags |= FLAG_ZERO;
+      }
+      
+      if((result & 0x80) != 0)
+      {
+         flags |= FLAG_NEGATIVE;
+      }
+      
+      return result;
+   }
+   
+   public int or(int operandA, int operandB)
+   {
+      flags = 0;
+   
+      int result = (operandA & 0xFF) | (operandB & 0xFF);
+   
+      if(result == 0)
+      {
+         flags |= FLAG_ZERO;
+      }
+      if((result & 0x80) != 0)
+      {
+         flags |= FLAG_NEGATIVE;
+      }
+   
       return result;
    }
 
