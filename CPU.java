@@ -88,11 +88,18 @@ public class CPU
          executeStore();
          break;
          
+         case(ArithmeticLogicUnit.OP_AND):
+         executeAnd();
+         break;
+         
+         case (ArithmeticLogicUnit.OP_OR):
+         executeOr();
+         break;
+         
          case 0xFF:
             halt();
             break;
-            
-            
+             
          default:
             throw new IllegalArgumentException("Unknown opcode: " + opcode);
       
@@ -132,12 +139,7 @@ public class CPU
     */
    private void executeAdd()
    {
-      int operand1 = this.A.get();
-      int operand2 = this.B.get();
-   
-      int result = this.alu.add(operand1, operand2);
-   
-      A.set(result);
+      A.set(alu.add(A.get(), B.get()));
    }
 
    /**
@@ -147,12 +149,30 @@ public class CPU
     * Store the result back into the register.
     */
    private void executeSub()
-   {
-      int operand1 = this.A.get();
-      int operand2 = this.B.get();
+   {  
+      A.set(alu.sub(A.get(), B.get()));
+   }
    
-      int result = this.alu.sub(operand1,operand2);
-      A.set(result);
+   /**
+   *  Implement And instruction
+   *  
+   *A.set(alu.and(A.get(), B.get()));
+   * will set to this later.
+   */
+   private void executeAnd()
+   {
+      A.set(alu.and(A.get(), B.get()));
+   }
+   
+   // Implement Or instruction
+   /*
+   * 
+      A.set(alu.or(A.get(), B.get()));
+   *
+   */
+   private void executeOr()
+   {
+     A.set(alu.or(A.get(), B.get()));
    }
 
    /**
