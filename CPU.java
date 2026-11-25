@@ -12,6 +12,7 @@ public class CPU
 
     private static final int OP_LOAD = 0x03;
     private static final int OP_STORE = 0x04;
+    public static final int OP_JMP = 0x08;
 
       //if true, keep running. false, halt()
    private boolean running;
@@ -96,6 +97,14 @@ public class CPU
          executeOr();
          break;
          
+         case OP_JMP:
+         executeJump();
+         break;
+         
+         case(ArithmeticLogicUnit.OP_XOR):
+         executeXor();
+         break;
+         
          case 0xFF:
             halt();
             break;
@@ -156,7 +165,6 @@ public class CPU
    /**
    *  Implement And instruction
    *  
-   *A.set(alu.and(A.get(), B.get()));
    * will set to this later.
    */
    private void executeAnd()
@@ -166,13 +174,20 @@ public class CPU
    
    // Implement Or instruction
    /*
-   * 
-      A.set(alu.or(A.get(), B.get()));
-   *
    */
    private void executeOr()
    {
      A.set(alu.or(A.get(), B.get()));
+   }
+   
+   // Implement Xor instruction
+   /*
+   *
+   *
+   */
+   private void executeXor()
+   {
+    A.set(alu.xor(A.get(),B.get()));
    }
 
    /**
@@ -182,7 +197,8 @@ public class CPU
     */
    private void executeJump()
    {
-      programCounter.next();
+      int address = memory.read16(programCounter.get());
+      programCounter.set(address);
    }
       
       
