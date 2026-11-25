@@ -14,7 +14,6 @@ public class ArithmeticLogicUnit
    public static final int OP_AND = 0x05;  // 00010000
    public static final int OP_OR  = 0x06;  
    public static final int OP_XOR = 0x07;
-   public static final int OP_JMP = 0x08;
    
    /* 
    *  int is 32 bits, long is 64 bits.
@@ -188,6 +187,28 @@ public class ArithmeticLogicUnit
       {
          flags |= FLAG_ZERO;
       }
+      if((result & 0x80) != 0)
+      {
+         flags |= FLAG_NEGATIVE;
+      }
+   
+      return result;
+   }
+   
+   public int xor(int operandA, int operandB)
+   {
+      flags = 0;
+   
+      operandA &= 0xFF;
+      operandB &= 0xFF;
+   
+      int result = operandA ^ operandB;
+   
+      if(result == 0)
+      {
+         flags |= FLAG_ZERO;
+      }
+   
       if((result & 0x80) != 0)
       {
          flags |= FLAG_NEGATIVE;
